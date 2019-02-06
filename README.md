@@ -1,2 +1,2 @@
-# computationalMusicology
+# ComputationalMusicology
 Computational Musicology Web Page
