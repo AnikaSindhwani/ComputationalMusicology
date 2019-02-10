@@ -1,6 +1,5 @@
-//# Computational Musicology
-
 ## Homework Assignment 1
+### Anika Sindhwani
 
 &ensp;&ensp;&ensp;I will be looking specifically at what it means to be a ‘singing in the shower’ playlist. As such, my corpus will include the following Spotify playlists: “Songs to Sing in the Shower”, “shower / sing-a-long”, and “Shower”. I will also be including the following playlists that feature similar songs, but aren’t targeted as ‘singing in the shower’ playlists: “Pop Hits Rewind” and “Pop Hits 2000-2018”. By including both sets of playlists, this corpus will represent playlists with generally similar songs, but that are or are not classified as ‘singing in the shower’ playlists. By comparing these groups, I will try to see if there is a measurable difference in certain attributes measured by Spotify, to define what it means to be a ‘singing in the shower’ playlist. I chose the most-followed ‘singing in the shower’ playlists on Spotify, so I believe it should be a good representation of music that people do enjoy while showering. 
 
