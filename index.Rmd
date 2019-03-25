@@ -220,6 +220,9 @@ That said, the differences (especially when looking at coefficients 3 and 5) don
 ```{r, echo = FALSE}
 get_clustering(shower_playlists, "Singing in the Shower Playlists Clustering")
 get_clustering(pop_playlists, "Pop Playlists Clustering")
+#par(mfrow=c(1,2))
+#plot(shower_plot)
+#plot(pop_plot)
 ```
 
 ***
@@ -234,7 +237,7 @@ The best conclusion I can draw from my analyses throughout the storyboards is th
 
 While these results are a bit disappointing in that they're not quite flashy or revolutionary, they are still interesting. They call to question how Spotify classifies its playlists, and begs the question: what other Spotify playlist "genres" are actually unique / novel?
 
-I don't believe the direct results of this project has many benefits, but I do think that the consideration of what makes a specific Spotify playlist distinct/unique could benefit research projects focusing on Spotify (or even other) playlists. 
+I don't believe the direct results of this project have many benefits, but I do think that the consideration of what makes a specific Spotify playlist distinct/unique could benefit research projects focusing on Spotify (or even other) playlists. 
 
 ### Appendix
 
