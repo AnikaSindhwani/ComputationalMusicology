@@ -45,9 +45,8 @@ all_music <-
   bind_rows(pop_playlists %>% mutate(playlist = "Pop"))
 ```
 
+
 ### [Background] What does it mean to be a 'singing in the shower' playlist, and how do such playlists differ from generic pop playlists?
-<!-- What is a 'singing in the shower' playlist, and how does it differ from a generic pop playlist? -->
-<!-- What Does It Mean to Be a 'Singing in the Shower' Playlist, and How Does It Differ From a Generic Pop Playlist? -->
 
 ![](./singing_in_the_shower_drawn.jpg)
 
@@ -57,37 +56,32 @@ This corpus will represent playlists with generally similar songs, but that are 
 
 The 'singing in the shower' playlists used:
 
-* Songs to Sing in the Shower
-* Shower / sing-a-long 
-* Shower     
+* <a href="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWSqmBTGDYngZ">Songs to Sing in the Shower</a>
+* <a href="https://open.spotify.com/user/kyarahamers/playlist/1rmsEzwr6ZmRNzCUph24vZ">Shower / sing-a-long</a>
+* <a href="https://open.spotify.com/user/agward/playlist/1dTgSkYRwILdvmckibB9AP">Shower</a>
 
 The pop playlists used:
 
-* Pop Hits 2000-2018
-* Pop Hits Rewind
-* Guilty Pleasures
-* Mega Hit Mix
+* <a href="https://open.spotify.com/user/maka_97/playlist/0RPcfl1sCsJ03B0bztuKAn">Pop Hits 2000-2018</a>
+* <a href="https://open.spotify.com/user/getmusicasia/playlist/0RPcfl1sCsJ03B0bztuKAn">Pop Hits Rewind</a>
+* <a href="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX4pUKG1kS0Ac">Guilty Pleasures</a>
+* <a href="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DXbYM3nMM0oPk">Mega Hit Mix</a>
 
-For more information on the playlists used, take a look at the Appendix storyboard.
+For more information on the playlists used, take a look at the Appendix tab.
 
 
 ### [Classification] A random forest classification of the sets of playlists helps identify their most important differentiating features.
-<!-- Random Forest Classification of Playlists -->
 
-```{r, echo = FALSE}
-#get_random_forest(shower_playlists, pop_playlists)
-```
 ![](./random_forest_classification.jpg)
 
 *** 
 
-Based on the Random Forest classification, we find that the most important differentiating feature is valence, with MeanDecreaseGini ~ 23. The next most important features are speechiness, with MeanDecreaseGini ~ 17, and c05, c09, and B (all with MeanDecreaseGini ~16). 
+Based on the Random Forest classification, we can see that the most important differentiating feature is valence, with MeanDecreaseGini ~ 23. The next most important features are speechiness, with MeanDecreaseGini ~ 17, and c05, c09, and B (all with MeanDecreaseGini ~16). 
 
-We use these top features in our kNN classification, which we can see the results of in the next storyboard. We also use these top features throughout our storyboards, when choosing track-level features to analyze and songs to compare that are representative of each set of playlists. 
+I use these top features in the kNN classification, which we can see the results of in the next tab. I also use these top features throughout the storyboard, when choosing track-level features to analyze and songs to compare that are representative of each set of playlists. 
 
 
 ### [Classification] The kNN classification of the playlists shows how well a computer can tell 'singing in the shower' and pop playlists apart (spoiler: not well).
-<!-- kNN Classification of Playlists Based on Random Forest Results -->
 
 ```{r, echo = FALSE}
 get_kNN_classification(shower_playlists, pop_playlists)
@@ -95,9 +89,9 @@ get_kNN_classification(shower_playlists, pop_playlists)
 
 *** 
 
-This kNN classifier, even with modified and optimized feature values from the random forest classification, only achieved an accuracy of 0.55. This is only a slightly better performance than if one were to guess the playlist with a coin flip (and achieve ~0.5 accuracy). This is also the case even when using the full dataset for both sets of playlists. So, it seems to indicate that it's quite difficult to classify a song from both sets of playlists as being from either a 'singing in the shower' playlist or a pop playlist.
+This kNN classifier, even with modified and optimized feature values from the random forest classification, only achieves an accuracy of 0.55. This is only a slightly better performance than if one were to guess the playlist with a coin flip (and achieve ~0.5 accuracy). This is even the case when using the full dataset for both sets of playlists, and when using all feature values for the classification. So, it seems to indicate that it's quite difficult to classify a song from both sets of playlists as being from either a 'singing in the shower' playlist or a pop playlist.
 
-These results show a trend that we will see throughout the storyboards as we explore other features in depth: it's very difficult to differentiate 'singing in the shower' playlists from pop playlists, and as such, it's increasingly difficult to define 'singing in the shower' playlists, without really being able to separate the two. 
+These results show a trend that we will see throughout the storyboard as I explore other features in depth: it's very difficult to differentiate 'singing in the shower' playlists from pop playlists, and as such, it's increasingly difficult to define 'singing in the shower' playlists, without really being able to separate the two. 
 
 <!-- # A tibble: 3 x 3
   .metric  .estimator .estimate
@@ -107,8 +101,28 @@ These results show a trend that we will see throughout the storyboards as we exp
 3 j_index  binary          0.1 -->
 
 
+### [Clustering] The clustering of 'singing in the shower' playlists and pop playlists also reveal comparable cluster patterns.
+
+```{r, echo = FALSE}
+get_clustering(shower_playlists, "Singing in the Shower Playlists Clustering")
+get_clustering(pop_playlists, "Pop Playlists Clustering")
+get_combined_clustering(shower_playlists, pop_playlists)
+```
+
+***
+
+The hierarchical clusterings are computed based on Euclidean distances, using a minimax linkage function.
+
+In the final clustering graph, blue represents 'singing in the shower' songs and red represents pop songs. 
+
+What's remarkable when looking at the clustering of the 'singing in the shower' playlists and the pop playlists is how similar they are in terms of groupings. They both seem to have 3-4 main clusters, and the structure of the clusters is quite similar, too.  
+
+Further, when looking at the clustering of both sets of playlists combined (with songs randomly chosen from each playlist), we see that there aren't any very large clusterings with mostly 'singing in the shower' or pop music. There are some smaller clusters that are mostly one or the other playlist, but in large part, we see a general mix of both sets of playlists in most of the clusters. Thus, yet another method has failed to really differentiate 'singing in the shower' and pop playlists.
+
+Thus far, overarching techniques (classification and clustering) have been unable to provide us with concrete insights on the differences between the two sets of playlists. So, next we will look at lower-level features in the hope that they may shed some light on playlist group differences, on a more microscopic scale. 
+
+
 ### [Track-level features] Looking at the energy and valence for both sets of playlists, we see valid distributions of data and much overlap. 
-<!-- Examining the Energy and Valence for Both Sets of Playlists -->
 
 ```{r, echo=FALSE}
 get_energy_valence_plot(all_music)
@@ -116,15 +130,14 @@ get_energy_valence_plot(all_music)
 
 *** 
 
-Generally, when looking at pop music, a valence vs. energy plot is used for preliminary analysis, which is why we have chosen this plot as a reference of what we expect our music distributions to follow. Pop music is generally in the upper right quadrant (high energy and high valence), a bit less in the upper left quadrant (high energy and low valence), infrequently in the lower left quadrant (low energy and low valence), and rarely in the lower right quadrant (low energy and high valence).
+Generally, when looking at pop music, a valence vs. energy plot is used for preliminary analysis, which is why I have chosen this plot as a reference for what I expect the music distributions to follow. Pop music is generally in the upper right quadrant (high energy and high valence), a bit less in the upper left quadrant (high energy and low valence), infrequently in the lower left quadrant (low energy and low valence), and rarely in the lower right quadrant (low energy and high valence).
 
-Looking at this first scatterplot, we see the greatest concentration of music, for both playlists, in the quadrant with high energy and high valence. This is the distribution we expected from the pop playlists. It also seems valid, given both playlists seem to have a large mix of fast-paced, loud, and cheerful music. As such, we can see our first real similarity in both playlists. 
+Looking at this first scatterplot, we see the greatest concentration of music, for both playlists, in the quadrant with high energy and high valence. This is the distribution I expected from the pop playlists. It also seems valid, given both playlists seem to have a large mix of fast-paced, loud, and cheerful music. As such, we can see our first real similarity in both playlists. 
 
 More interestingly, we see that the ‘singing in the shower’ playlists have a wider array of music. Particularly, it seems to have a decent proportion of songs with 0-0.5 valence, as compared to the 'pop' playlist. One theory for this is that top charts 'pop' music is generally "catchy" because it has a positive and fast beat, but songs that people generally like to sing along to can be happy or more angry, that usually have fast and loud beats. Neither, however, seem to have much music with low energy and low valence, but music in that category tends to be perceived as sadder, which makes it less likely to be considered a 'pop' song, and also most likely makes it not as fun to sing in the shower (though this is mere speculation on my behalf).
 
 
 ### [Track-level features] The valence and speechiness show a concentration of values for both sets of playlists, but also interesting differences between the sets of playlists. 
-<!-- Comparing the Valence and Speechiness for Both Sets of Playlists -->
 
 ```{r, echo = FALSE}
 get_valence_speechiness_plot(all_music)
@@ -132,15 +145,13 @@ get_valence_speechiness_plot(all_music)
 
 *** 
 
-* Most of the music from both playlists is concentrated in the same area.
-* Speechiness: ~0.05
-* Valence: ~0.5
-* Both playlists have music on the full spectrum of valence.
-* 'Singing in the shower' playlists have more songs with speechiness close to 0.6, and they have higher upper quartile and maximum speechiness values.
-* For the points above the speechiness = 0.2 line, it's clear to see that the 'singing in the shower' music is more on the low valence side, and the pop music is more on the high valence side (pop music has a higher valence median than shower music).
-* Possible explanation: 'pop' songs that are generally the most enjoyed are ones that are more happy, but music that is enjoyed while showering can be sad or depressing too, as long as people can still pretend to be the Beyoncé in their bathroom by "belting out" the tunes. An important category that falls into the latter description is sad, upbeat music, as it makes for good songs to sing along to. Also, since pop music appears on the radio, in clubs, and many other places, it makes sense that the music is mostly sung (with few spoken words), whereas that's less of a requirement for 'singing in the shower' music. 
-* Distribution of data seems valid.
-* Further research is necessary to paint a clearer picture of defining 'singing in the shower' characteristics.
+Since valence and speechiness were classified earlier as the most important differentiating track-level features between both sets of playlists, we will take a closer look at them here. 
+
+We can see that most of the music from both playlists is concentrated in the same area, with speechiness values ~0.05 and valence values ~0.5. While both playlists have music on the full spectrum of valence, 'singing in the shower' playlists have more songs with speechiness close to 0.6, with higher upper quartile and maximum speechiness values than pop playlists.
+
+For the points above the speechiness = 0.2 line, it's clear to see that the 'singing in the shower' music is more on the low valence side, and the pop music is more on the high valence side (pop music has a higher valence median than shower music).
+
+One possible explanation for these findings is that 'pop' songs that are generally the most enjoyed are ones that are more happy, but music that is enjoyed while showering can be sad or depressing too, as long as people can still pretend to be the Beyoncé in their bathroom by "belting out" the tunes. An important category that falls into the latter description is sad, upbeat music, as it makes for good songs to sing along to. Also, since pop music appears on the radio, in clubs, and many other places, it makes sense that the music is mostly sung (with few spoken words), whereas that's less of a requirement for 'singing in the shower' music. 
 
 
 ### [Track-level features] The similarities in 'singing in the shower' and pop playlists are apparent when looking at the densities of track-level features.
@@ -153,11 +164,10 @@ get_track_level_features_plot_grid(all_music)
 
 What's most striking when looking at the densities of four different track-level features for both sets of playlists is how similar the distributions for both look. These plots begin to indicate how people may not find songs from either playlist to be discernible as a shower vs. pop song.
 
-Defining 'singing in the shower' playlists just through track-level features clearly won't be sufficient, as we will need better measures to better define these playlists separate from pop playlists. These measures will be highlighted through later storyboards.
+Defining 'singing in the shower' playlists through track-level features clearly won't be sufficient, either. I will need other measures to better define these playlists separate from pop playlists, so I will examine them on an even smaller scale in upcoming tabs, comparing a representative song from each set of playlists. 
 
 
-### [Chroma features] The top song from each playlist type has mostly similar chroma values, with some noticeable differences in pitch class usage and denseness. 
-<!-- Comparing Each Playlist's Top Song Chroma Features --> ?
+### [Chroma features] The most representative song from each playlist type has mostly similar chroma values, with some noticeable differences in pitch class usage and denseness. 
 
 ```{r, echo = FALSE}
 # getting audio analysis of top song from each playlist
@@ -178,18 +188,17 @@ create_chroma_plots(colors, blank_space)
 
 ***
 
-Since valence and speechiness have the highest rank in terms of feature importance, according to our random forest classification, we chose a song from each set of playlists that we feel is most representative of its set as follows:
+Since valence and speechiness have the highest rank in terms of feature importance, according to the random forest classification, I chose a song from each set of playlists that I feel is most representative of its set as follows:
 
-* For the 'singing in the shower' playlist, we chose **Colors by Halsey** because it has valence 0.521 and speechiness 0.062, as compared to the shower playlists average valence 0.528 and average speechiness 0.085. 
-* For the pop playlist, we chose **Blank Space by Taylor Swift** because it has valence 0.597 and speechiness 0.070, as compared to the shower playlists average valence 0.599 and average speechiness 0.072. 
+* For the 'singing in the shower' playlist, I chose **Colors by Halsey** because it has valence 0.521 and speechiness 0.062, as compared to the shower playlists average valence 0.528 and average speechiness 0.085. 
+* For the pop playlist, I chose **Blank Space by Taylor Swift** because it has valence 0.597 and speechiness 0.070, as compared to the shower playlists average valence 0.599 and average speechiness 0.072. 
 
-The chromagrams were calculated using Euclidean distances. 
+The chromagrams were calculated using Euclidean distances. This measure was chosen because it created the clearest chromagrams of all the available distance measures. It will also be used for the next tab for the same reason, as well as for consistency.  
 
 In a preliminary analysis of the plots, we see that 'Colors' has more dense chroma features than 'Blank Space'. Both use a large range of pitch classes, and the chromagrams seem quite similar on first glance. That said, when looking at a fine level, some key differences emerge. 'Colors' uses pitch classes G#/Ab, F#/Gb, D#/Eb, unlike 'Blank Space'. On the other hand, 'Blank Space' has noticeable use of pitch classes A, G, E (briefly), and D, unlike 'Colors'. 'Blank Space' also has greater magnitude points than 'Colors', although both don't have very clear/clean chromagrams. 
 
 
 ### [Chroma and timbre / temporal features] 'Blank Space' has more points of novelty, with a more consistent song structure, than 'Colors', when comparing chroma and timbre self-similarity matrices. 
-<!-- Comparing Each Playlist's Top Song Chroma and Timbre Self-Similarity Matrices -->
 
 ```{r, echo = FALSE, fig.height=5, fig.width=10}
 get_self_similarity_matrices()
@@ -199,11 +208,10 @@ get_self_similarity_matrices()
 
 The self-similarity matrices were calculated using Euclidean distances. 
 
-The differences noted in the previous storyboard between the most representative song from each playlist are even more noticeable when comparing the chroma and timbre self-similarities matrices of both songs. The most noticeable difference is that 'Blank Space' has more distinct points of novelty / changes throughout the song, whereas 'Colors' has few unexpected parts of the song (where the biggest change is exactly at the start of the song). 'Blank Space' also has a very consistent structure, marked by the very clear grid in both of its self-similarity matrices. 'Colors' is far fuzzier. It also shows very distinct texture changes that, again, are more unnoticeable for 'Colors'. That said, both songs show a lot of repetition, as marked by the diagonal lines. 
+The differences noted in the previous tab between the most representative song from each playlist are even more noticeable when comparing the chroma and timbre self-similarities matrices of both songs. The most noticeable difference is that 'Blank Space' has more distinct points of novelty / changes throughout the song, whereas 'Colors' has few unexpected parts of the song (where the biggest change is exactly at the start of the song). 'Blank Space' also has a very consistent structure, marked by the very clear grid in both of its self-similarity matrices. 'Colors', on the other hand, has a far fuzzier song structure. Additionally, 'Blank Space' shows very distinct texture changes that, again, are more unnoticeable for 'Colors'. That said, both songs show a lot of repetition, as marked by the diagonal lines. 
 
 
 ### [Timbre features] Timbre coefficients 3, 5, and 7 are the best markers for differences in both sets of playlists, but only marginally. 
-<!-- Comparing Average Timbre Coefficients for Both Sets of Playlists -->
 
 ```{r, echo = FALSE}
 get_average_timbre_coefficients(shower_playlists, pop_playlists)
@@ -211,33 +219,25 @@ get_average_timbre_coefficients(shower_playlists, pop_playlists)
 
 ***
 
+Since we saw some interesting differences in the chroma and timbre self-similarity matrices, we now look to the timbre coefficient values of these sets of playlists to see if they show additional differences we haven't yet observed. 
+
 Timbre coefficients 3, 5, and 7 seem like the best markers for differences in both sets of playlists. For more context, the third looks at the flatness of the songs, the fifth looks at the brightness of the song at different points of time, and the seventh looks at a combination of brightness and songs with a beginning attack. 
 
 That said, the differences (especially when looking at coefficients 3 and 5) don't seem to be that significant. Also, the rest of the coefficients seem to indicate close similarities in timbre values across both sets of playlists, suggesting how similar the 'singing in the shower' playlists are to the pop ones. 
 
-### [Clustering] The clustering of 'singing in the shower' playlists and pop playlists reveal comparable cluster patterns.
+As the final measure of analysis addressing the question of what a 'singing in the shower' playlist is, as compared to a pop one, we unfortunately still have not had fruitful enough results to definitively say that these playlists are different, let alone what these differences would be.  
 
-```{r, echo = FALSE}
-get_clustering(shower_playlists, "Singing in the Shower Playlists Clustering")
-get_clustering(pop_playlists, "Pop Playlists Clustering")
-#par(mfrow=c(1,2))
-#plot(shower_plot)
-#plot(pop_plot)
-```
-
-***
-
-The hierarchical clusterings are computed based on Euclidean distances. 
-
-What's remarkable when looking at the clustering of the 'singing in the shower' playlists and the pop playlists is how similar they are in terms of groupings. They both seem to have 3-4 main clusters, and the structure of the clusters is quite similar, too.  
 
 ### [Conclusion] Final thoughts and wrap-up
 
-The best conclusion I can draw from my analyses throughout the storyboards is that 'singing in the shower' and pop playlists are, indeed, the same. There weren't many differences found between the two sets of playlists, and all of the differences found were minor, especially when considered on a large scale. 
+&ensp;&ensp;&ensp;&ensp; I looked for differences on a categorical scale (classification/clustering), a detailed local scale (track-level features), and a miniscule (song vs. song) scale. There weren't many differences found between the two sets of playlists, on any of these scales, and all of the differences found were really minor, which leads me to believe that there are no actual differences to find. As such, the best conclusion I can draw from my analyses throughout the storyboard is that 'singing in the shower' and pop playlists are, indeed, the same. 
 
-While these results are a bit disappointing in that they're not quite flashy or revolutionary, they are still interesting. They call to question how Spotify classifies its playlists, and begs the question: what other Spotify playlist "genres" are actually unique / novel?
+&ensp;&ensp;&ensp;&ensp; While these results are a bit disappointing in that they're not quite flashy or revolutionary, they are still interesting. They call to question how Spotify classifies its playlists, and begs the question: what other Spotify playlist "genres" are actually unique / novel?
 
-I don't believe the direct results of this project have many benefits, but I do think that the consideration of what makes a specific Spotify playlist distinct/unique could benefit research projects focusing on Spotify (or even other) playlists. 
+&ensp;&ensp;&ensp;&ensp; The direct results of this project may not have many benefits, but I do think that the consideration of what makes a specific Spotify playlist distinct/unique could benefit research projects focusing on Spotify (or even other) playlists. 
+
+&ensp;&ensp;&ensp;&ensp; Finally, on a personal note, having computed and experimented with different analytical functions and strategies throughout this project, I now have the foundational tools to ask other meaningful computational musicology questions and seek initial answers. 
+
 
 ### Appendix
 
@@ -267,10 +267,4 @@ pop_table <- "
 |         Mega Hit Mix        | 37i9dQZF1DXbYM3nMM0oPk |       75        |  
 "
 cat(pop_table)
-```
-
-```{r, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', fig.show='asis'}
-#get_random_forest(shower_playlists, pop_playlists)
-#![](./playlist_table_references.jpg){ height=75%, width=75% }
-#![](./random_forest_classification.jpg){ height=50%, width=50% }
 ```
